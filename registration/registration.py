@@ -1,2 +1,2 @@
-name = 12121434
+name = 12
 print(name)
