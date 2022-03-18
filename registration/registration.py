@@ -1,2 +1,2 @@
-name = input("Whats your name: ")
+name = 12121
 print(name)
