@@ -13,6 +13,5 @@ def list_of_names(n: int) -> list:
         listt.append(name)
     return listt
 
-# classmates = list_of_names(10)
-# print(classmates)
-list_of_names(10)
+classmates = list_of_names(10)
+print(classmates)
