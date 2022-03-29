@@ -8,14 +8,15 @@ def checking_validation(func):
         mat = re.search(pat, password)
         if not (re.fullmatch(reg_email, email)):
             raise Exception("Invalid Email")
-        else:
-            pass
         if not mat:
             raise Exception("Invalid Password!")
-        else:
-            pass
         func(email, password)
     return wrapper
+
+def ask_credentials():
+        email = input(em_text)
+        password = input(pass_text)
+        return email,password
 
 def authorization(email, password: str):
     with open('users.txt') as file:
@@ -39,12 +40,10 @@ if __name__ == '__main__':
         pass_text = 'Please enter a password! \nPassword should have at least one numeral,\none uppercase and one special symbol!\n'
         answer = input('Menu:\n1 - Sing in\n2 - Sing up!\n0 - Exit\nYour choice? ')
         if answer == '1':
-            email = input(em_text)
-            password = input(pass_text)            
+            email, password = ask_credentials()            
             authorization(email, password)
         elif answer == '2':
-            email = input(em_text)
-            password = input(pass_text)            
+            email, password = ask_credentials()           
             registration(email, password)
         elif answer == '0':
             break
