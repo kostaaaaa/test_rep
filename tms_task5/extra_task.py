@@ -1,5 +1,5 @@
 import re
-        
+               
 def checking_validation(func):
     def wrapper(email, password):
         reg_email = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
@@ -14,6 +14,8 @@ def checking_validation(func):
     return wrapper
 
 def ask_credentials():
+        em_text = 'Please enter an email!\n'
+        pass_text = 'Please enter a password! \nPassword should have at least one numeral,\none uppercase and one special symbol!\n'
         email = input(em_text)
         password = input(pass_text)
         return email,password
@@ -36,8 +38,6 @@ def registration(email, password: str):
 
 if __name__ == '__main__':
     while True:
-        em_text = 'Please enter an email!\n'
-        pass_text = 'Please enter a password! \nPassword should have at least one numeral,\none uppercase and one special symbol!\n'
         answer = input('Menu:\n1 - Sing in\n2 - Sing up!\n0 - Exit\nYour choice? ')
         if answer == '1':
             email, password = ask_credentials()            
