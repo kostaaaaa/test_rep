@@ -22,7 +22,7 @@ def add_to_csv_file():
         'Age' : 39}
         ]
     with open('csv_file.csv', 'w') as file_object:
-        writer = csv.DictWriter(file_object, fieldnames = fieldnames)
+        writer = csv.DictWriter(file_object, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
 
