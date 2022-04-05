@@ -1,4 +1,5 @@
 import re
+import json
                
 def checking_validation(func):
     def wrapper(email, password):
@@ -21,19 +22,25 @@ def ask_credentials():
         return email,password
 
 def authorization(email, password: str):
-    with open('users.txt') as file:
-        for line in file.readlines():
-            if email and password in line:
-                print('======\nWellcome back, my friend!\n======')
-            else:
-                print('Check your email or password!')
+    with open('users.json', 'r') as file:
+        data = json.load(file)
+        users_emails = [users['Email'] for users in data]
+        users_passwords = [users['Password'] for users in data]
+        if email in users_emails and password in users_passwords:
+            print('======\nWellcome back, my friend!\n======')
+        else:
+            print('Check your email or password!')
 
 @checking_validation
 def registration(email, password: str):
-    with open('users.txt', 'a') as file:
-        L = [f'{email}:{password}', '\n']
-        file.writelines(L)
-        file.close()
+    users_to_add = []
+    users = {
+        'Email': email, 
+        'Password': password
+        }
+    users_to_add.append(users)
+    with open('users.json', 'w') as file:
+        json.dump(users_to_add, file)
     return print('======\nRegistration complete! Now you can Sign in!\n======')
 
 if __name__ == '__main__':
