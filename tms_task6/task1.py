@@ -4,10 +4,10 @@ from openpyxl import Workbook
 
 def add_to_json_file():
     person = [
-    {'name' : 'Kosta', 
-    'age' : 25},
-    {'name' : 'Oleg',
-    'age' : 30}
+        {'name' : 'Kosta', 
+        'age' : 25},
+        {'name' : 'Oleg',
+        'age' : 30}
     ]
     data = json.dumps(person, indent = 4)
     with open('json_file.json', 'w') as file_object:
@@ -16,10 +16,10 @@ def add_to_json_file():
 def add_to_csv_file():
     fieldnames = ['Name', 'Age']
     rows = [
-            {'name' : 'Kosta',
-            'age' : 25},
-            {'name' : 'Oleg',
-            'age' : 39}
+        {'name' : 'Kosta',
+        'age' : 25},
+        {'name' : 'Oleg',
+        'age' : 39}
         ]
     with open('csv_file.csv', 'w') as file_object:
         writer = csv.DictWriter(file_object, fieldnames=fieldnames)
