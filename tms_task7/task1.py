@@ -5,7 +5,7 @@ class Vehicle:
         self.type = type
 
     def drive(self):
-        print(f'The {self.model} is now driving..')
+        print(f'The {self.model} is driving now..')
 
 skoda_fabia = Vehicle(
     brand = 'Skoda',

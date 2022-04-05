@@ -24,9 +24,9 @@ def ask_credentials():
 def authorization(email, password: str):
     with open('users.json', 'r') as file:
         data = json.load(file)
-        user = [users['Email'] for users in data]
-        passw = [users['Password'] for users in data]
-        if email in user and password in passw:
+        users_emails = [users['Email'] for users in data]
+        users_passwords = [users['Password'] for users in data]
+        if email in users_emails and password in users_passwords:
             print('======\nWellcome back, my friend!\n======')
         else:
             print('Check your email or password!')
