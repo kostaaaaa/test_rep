@@ -1,0 +1,26 @@
+CREATE TABLE cars(
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    model TEXT NOT NULL,
+    year INTEGER NOT NULL,
+);
+
+INSERT INTO cars(name, model, year) VALUES ("skoda", "fabia", 2008);
+INSERT INTO cars(name, model, year) VALUES ("skoda", "rapid", 2009);
+INSERT INTO cars(name, model, year) VALUES ("volkswagen", "golf", 2012);
+INSERT INTO cars(name, model, year) VALUES ("volkswagen", "passat", 2020);
+
+CREATE TABLE sales(
+    sales_id INTEGER PRIMARY KEY,
+    price INTEGER NOT NULL,
+    client TEXT NOT NULL,
+    car_id integer NOT NULL,
+    FOREIGN KEY (car_id) REFERENCES cars(id)
+);
+
+INSERT INTO sales(price, client, car_id) VALUES (8000, "Obama", 1);
+INSERT INTO sales(price, client, car_id) VALUES (10000, "Bush", 3);
+INSERT INTO sales(price, client, car_id) VALUES (9000, "Linkoln", 4);
+INSERT INTO sales(price, client, car_id) VALUES (13000, "Trump", 2);
+
+SELECT sales_id, price, C.name, C.model FROM sales JOIN cars C WHERE sales.car_id == C.id and price < 10000;
