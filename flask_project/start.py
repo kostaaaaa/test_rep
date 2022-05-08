@@ -1,49 +1,50 @@
 import re
 from datetime import datetime
 
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import Flask, flash, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'awdawdawrnjn45345nkjn345n3jk45n'
-reg_email = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:12345@localhost/test'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+reg_email = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
-class Users(db.Model):
+
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50), unique=True)
-    psw = db.Column(db.String(500), nullable=True)
+    password = db.Column(db.String(500), nullable=True)
     date = db.Column(db.DateTime, default=datetime.utcnow)
 
-    pr = db.relationship('Profiles', backref='users', uselist=False)
+    pr = db.relationship('Profile', backref='user', uselist=False)
 
 
-class Profiles(db.Model):
+class Profile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=True)
     age = db.Column(db.Integer)
     city = db.Column(db.String(50))
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
 @app.route('/')
 def index():
     info = []
     try:
-        info = Users.query.all()
+        info = User.query.all()
+        return render_template('index.html', title='Main', list=info)
+
     except:
         print('[POSTGRESQL] Error reading DB!')
-    return render_template('index.html', title='Main', list=info)
 
 
 @app.route('/about')
 def about():
-    print(url_for('about'))
     return render_template('about.html', title='About')
 
 
@@ -66,16 +67,15 @@ def contact():
 def register():
     if request.method == 'POST':
         try:
-            hash = generate_password_hash(request.form['psw'])
-            u = Users(email=request.form['email'], psw=hash)
-            db.session.add(u)
+            hash = generate_password_hash(request.form['password'])
+            user = User(email=request.form['email'], password=hash)
+            db.session.add(user)
             db.session.flush()
 
-            p = Profiles(name=request.form['name'], age=request.form['age'],
-                        city=request.form['city'], user_id = u.id)
+            p = Profile(name=request.form['name'], age=request.form['age'],
+                        city=request.form['city'], user_id = user.id)
             db.session.add(p)
             db.session.commit()
-            redirect('/')
             print('[POSTGRESQL] Data was added successfully! :)')
         except:
             db.session.rollback()
