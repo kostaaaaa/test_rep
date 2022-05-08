@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>Main</h1>
+    <h3><a href="register">Registration</a></h3>
+    <h3><a href="about">About</a></h3>
+    <h3><a href="contact">Contact</a></h3>
+
+{% for user in users %} 
+<p>id: {{user.id}}, email: {{user.email}}</p>
+<li>Name: {{user.pr.name}}</li>
+<li>Age: {{user.pr.age}}</li>
+<li>City: {{user.pr.city}}</li>
+{% endfor %}
+</body>
+</html>
