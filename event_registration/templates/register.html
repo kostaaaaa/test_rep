@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>Event registration</h1>
+    <p><b>Name:</b> {{ event.name }}</p>
+    <p><b>Guests amount:</b> {{ event.guests.count() }}</p>
+    <p><b>Scheduled date:</b> {{ event.date }}</p>
+    
+    {% if event.guests.all() %}
+        <p>Guests:</p>
+        <ul>
+            {% for guest in event.guests.all() %}
+            <li>{{ guest.name }} {{ guest.surname }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    
+    <hr>
+    <p><b>Provide, your information: </b></p>
+    <form method="post">
+        Name: <input type="text" name="name" required><br>
+        Surname: <input type="text" name="surname" required><br>
+        Age: <input type="text" name="age" required><br><br>
+        <button type="submit" style="color: #1adce2;">Register</button>
+      </form>
+    <hr>
+
+<h3><a href="/"> <- back to the main page</a> </h3>
+</body>
+</html>

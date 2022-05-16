@@ -12,8 +12,24 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 now = datetime.now()
 
 
+event_guest = db.Table('event_guests',
+    db.Column('event_id', db.Integer, db.ForeignKey('events.id')),
+    db.Column('guest_id', db.Integer, db.ForeignKey('guests.id'))
+)
+
+
+class Event(db.Model):
+    __tablename__ = 'events'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    date = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(500), nullable=False)
+    guests = db.relationship('Guest', lazy='dynamic', secondary=event_guest, backref=db.backref('events', lazy='dynamic'))
+
+
 class Guest(db.Model):
-    __tablename__ = 'Guests'
+    __tablename__ = 'guests'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
@@ -22,40 +38,67 @@ class Guest(db.Model):
     date = db.Column(db.DateTime, default=now.strftime("%d/%m/%Y, %H:%M:%S"))
 
 
-@app.route('/main')
-@app.route('/')
+@app.route('/main', methods=['GET'])
+@app.route('/', methods=['GET'])
 def index():      
     return render_template('index.html', title='Main')
 
 
-@app.route('/guests', methods=['GET'])
-def guests():
-    info = []
-    try:
-        info = Guest.query.all()
-        return render_template('guests.html', title='Guests', list=info)
-    
-    except Exception:
-        print('[POSTGRESQL] Error reading DB!')
+@app.route('/events', methods=['GET'])
+@app.route('/events/', methods=['GET'])
+def events():
+    events = Event.query.all()
+    return render_template('events.html', title='Events', events=events)
 
 
-@app.route('/registration', methods=['GET', 'POST'])
-def registration():
+@app.route('/events/<int:event_id>', methods=['GET', 'POST'])
+def register(event_id):
+    event = Event.query.get(event_id)
+    if request.method == 'POST':
+        guest = Guest.query.filter_by(
+        name=request.form['name'],
+        surname=request.form['surname'],
+        age=request.form['age'],
+        ).first()
+
+        if not guest:
+            guest = Guest(
+                name=request.form['name'],
+                surname=request.form['surname'],
+                age=request.form['age'],
+            )
+            db.session.add(guest)
+            db.session.commit()
+
+        else:
+            event.guests.append(guest)
+            db.session.add(event)
+            db.session.commit()
+        
+        print('[POSTGRESQL] Data was added successfully! :)')
+
+
+    return render_template('register.html', event=event, title="Event registration")
+
+
+
+@app.route('/add_event', methods=['GET', 'POST'])
+def add_event():
     if request.method == 'POST':
         try:
-            guest = Guest(name=request.form['name'], surname=request.form['surname'], age=request.form['age'])
+
+            event = Event(name=request.form['name'], description=request.form['description'], date=request.form['date'])
             
-            db.session.add(guest)
+            db.session.add(event)
             db.session.flush()
             db.session.commit()
             
             print('[POSTGRESQL] Data was added successfully! :)')
-        
         except Exception:
             db.session.rollback()
             print('[POSTGRESQL] Data was not added!!!')
 
-    return render_template('registration.html', title="Registration")
+    return render_template('add_event.html', title="Add event")
 
 
 if __name__ == '__main__':
