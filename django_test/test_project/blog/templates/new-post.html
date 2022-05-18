@@ -34,23 +34,32 @@
             margin-right: 70px;
             margin-top: 50px;
         }
+        img {
+            border-radius: 8px;
+            height: 300px;
+        }
     </style>
 
 </head>
 <body>
     <h1>It's just a simple blog on Django!</h1>
 
-    <form action="new-post" method="POST">
+    <form action="new-post" method="POST" enctype="multipart/form-data">
         <p hidden>{% csrf_token %}</p> 
         <textarea class="form-control" name="text" id="exampleFormControlTextarea1" rows="3" placeholder="Type your message here.." required></textarea><br>
+        <input type="file" class="form-control-file" name="image">
+        <br>
         <button type="submit" margin-top:10px; class="btn btn-primary">Add!</button>
-        <a href="/blog" class="btn btn-warning" role="button">Main</a>
-        <hr>
+        <a href="/" class="btn btn-warning" role="button">Main</a>
     </form>
     
     {% if content %} 
     <ul>
         {% for post in content %} 
+        <hr>
+        {% if post.image %}
+            <img src="{{ post.image.url }}">
+        {% endif %}
         <h3>{{ post.text }}</h3>
         {{ post.pub_date }}
         <br>

@@ -29,6 +29,10 @@
         h3 {
             font-family: 'Courier New', Courier, monospace;
         }
+        img {
+            border-radius: 8px;
+            height: 300px;
+        }
     </style>
 </head>
 <body>
@@ -38,14 +42,19 @@
     <div class="d-grid gap-2 col-6 mx-auto">
         <a href="new-post" class="btn btn-primary" role="button">Add new Message!</a>
     </div>
-
+    
     {% if content %} 
     <ul>
         {% for post in content %} 
+        <hr>
+        {% if post.image %}
+            <img src="{{ post.image.url }}">
+        {% endif %}
         <h3>{{ post.text }}</h3>
+        
         {{ post.pub_date }}
         <br>
-        <br>
+        
         {% endfor %} 
     {% else %}
         <p>No posts yet..</p>
