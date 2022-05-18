@@ -1,24 +1,20 @@
-from datetime import datetime
 from django.shortcuts import redirect, render
+from django.utils import timezone
 
-from .models import Message
+from .models import Post
 
 
 def index(request):
-    info = Message.objects.order_by('-pub_date')
-    output = {
-        'info': info
-    }
-    return render(request, 'index.html', output)
+    content = Post.objects.order_by('-pub_date')
+
+    return render(request, 'index.html', {'content': content})
 
 
-def add_message(request):
-    info = Message.objects.order_by('-pub_date')
-    output = {
-        'info': info
-    }
+def new_post(request):
+    content = Post.objects.order_by('-pub_date')
     if request.method == 'POST':
-        text = request.POST.get("text", False)
-        message = Message.objects.create(message_text=text, pub_date=datetime.now())
+        text = request.POST['text']
+        Post.objects.create(text=text, pub_date=timezone.now())
         return redirect('/blog')
-    return render(request, 'add_message.html', output)
+
+    return render(request, 'new-post.html', {'content': content})

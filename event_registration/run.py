@@ -56,9 +56,9 @@ def register(event_id):
     event = Event.query.get(event_id)
     if request.method == 'POST':
         guest = Guest.query.filter_by(
-        name=request.form['name'],
-        surname=request.form['surname'],
-        age=request.form['age'],
+            name=request.form['name'],
+            surname=request.form['surname'],
+            age=request.form['age'],
         ).first()
 
         if not guest:
@@ -77,28 +77,23 @@ def register(event_id):
         
         print('[POSTGRESQL] Data was added successfully! :)')
 
-
     return render_template('register.html', event=event, title="Event registration")
 
 
-
-@app.route('/add_event', methods=['GET', 'POST'])
+@app.route('/add-event', methods=['GET', 'POST'])
 def add_event():
     if request.method == 'POST':
         try:
-
             event = Event(name=request.form['name'], description=request.form['description'], date=request.form['date'])
-            
             db.session.add(event)
             db.session.flush()
             db.session.commit()
-            
             print('[POSTGRESQL] Data was added successfully! :)')
         except Exception:
             db.session.rollback()
             print('[POSTGRESQL] Data was not added!!!')
 
-    return render_template('add_event.html', title="Add event")
+    return render_template('add-event.html', title="Add event")
 
 
 if __name__ == '__main__':
