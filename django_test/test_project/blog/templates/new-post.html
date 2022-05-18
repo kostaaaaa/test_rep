@@ -4,17 +4,50 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <title>Add new post</title>
+    <style>
+        body{
+            background-image:-webkit-linear-gradient(60deg,rgba(218, 169, 215, 0.637),rgba(128, 174, 235, 0.904));
+            background-position: center 0;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            -webkit-background-size: cover;
+            -o-background-size: cover;
+            -moz-background-size: cover;
+            -ms-background-size: cover;
+        }
+        h1 {
+            color: #000000;
+            font-family: sans-serif;
+            margin-left: 30px;
+            margin-top:40px;
+            margin-bottom:40px;
+        }
+        h3 {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        form {
+            margin-left: 30px;
+            margin-right: 70px;
+            margin-top: 50px;
+        }
+    </style>
+
 </head>
 <body>
-    <h1>Hello!</h1>
+    <h1>It's just a simple blog on Django!</h1>
+
     <form action="new-post" method="POST">
         <p hidden>{% csrf_token %}</p> 
-        Message:<br> 
-        <textarea name="text" rows="4" cols="50" placeholder="Type your message here.." required></textarea><br>
-        <button type="submit" style="color: #1adce2;">Add!</button>
+        <textarea class="form-control" name="text" id="exampleFormControlTextarea1" rows="3" placeholder="Type your message here.." required></textarea><br>
+        <button type="submit" margin-top:10px; class="btn btn-primary">Add!</button>
+        <a href="/blog" class="btn btn-warning" role="button">Main</a>
+        <hr>
     </form>
-    <br>
+    
     {% if content %} 
     <ul>
         {% for post in content %} 
