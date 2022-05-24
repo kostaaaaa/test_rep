@@ -46,8 +46,9 @@
         {% for post in context %} 
         <li class="elem-list">
         <hr>
-        {{ post.username }}
+        <a href='members/{{ post.username }}'>{{ post.username }}</a>
         {{ post.pub_date }}
+        <br>
         {% if post.image %}
             <img src="{{ post.image.url }}">
         {% endif %}

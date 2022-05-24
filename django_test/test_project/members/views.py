@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
+from blog.models import Post
 from .forms import RegisterUserForm
 
 
@@ -43,3 +44,13 @@ def register_user(request):
         form = RegisterUserForm()
 
     return render(request, 'authenticate/register-user.html', {'form':form})
+
+
+def profile(request):
+    context = Post.objects.filter(username=request.user.get_username()).order_by('-pub_date')
+    return render(request, 'profile.html', {'context':context})
+
+
+def user_profile(request, username):
+    context = Post.objects.filter(username=username).order_by('-pub_date')
+    return render(request, 'user-profile.html', {'context': context, 'username': username})

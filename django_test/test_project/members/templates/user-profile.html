@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ username }}
+{% endblock %}
+
+{% block content %}
+    <li class="elem-list">  
+        <h3>
+            Username: {{ username }}
+            <br>
+        </h3>
+    </li>
+    {% for post in context%}
+    <li class="elem-list">
+        <hr>
+        {{ post.username }}
+        {{ post.pub_date }}
+        <br>
+        {% if post.image %}
+            <img src="{{ post.image.url }}">
+        {% endif %}
+        <h4>{{ post.text }}</h4>
+        <br>
+        </li>
+    {% endfor %}
+{% endblock %}
