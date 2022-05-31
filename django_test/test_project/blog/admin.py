@@ -8,9 +8,8 @@ class PostAdmin(admin.ModelAdmin):
         'text',
         'pub_date',
         'image',
-        'username',
+        'user',
     )
-    readonly_fields = (['username'])
 
 
 admin.site.register(Post, PostAdmin)

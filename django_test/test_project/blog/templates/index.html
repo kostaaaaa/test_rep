@@ -9,7 +9,6 @@
         </ul>
     {% endif %}
     <div id="grad1"></div>
-    <!-- <h1>It's just a simple blog on Django!</h1> -->
     <form method="POST" enctype="multipart/form-data">
         <p hidden>{% csrf_token %}</p> 
         {% if user.is_authenticated %}
@@ -46,8 +45,17 @@
         {% for post in context %} 
         <li class="elem-list">
         <hr>
-        <a href='members/{{ post.username }}'>{{ post.username }}</a>
+        <a href='members/{{ post.user }}'>{{ post.user }}</a>
         {{ post.pub_date }}
+        {% for info in context2 %}
+            {% if info.get_user == post.user %} 
+            <li class="avatar">
+                {% if info.avatar %}
+                    <img src="{{ info.avatar.url }}">
+                {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
         <br>
         {% if post.image %}
             <img src="{{ post.image.url }}">

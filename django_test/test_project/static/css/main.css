@@ -108,3 +108,12 @@ button {
 h4 {
     font-family: 'Playfair Display', serif;
 }
+.avatar {
+    width: 500px;
+    margin: 0 auto;
+    list-style-type: none;
+}
+.avatar img {
+    width: 80px;
+    border-radius: 40px;
+}

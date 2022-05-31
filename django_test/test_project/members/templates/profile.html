@@ -5,10 +5,47 @@
 {% endblock %}
 
 {% block content %}
-    <li class="elem-list">  
+    <li class="avatar">  
+        <form method="POST" enctype="multipart/form-data">
+            <p hidden>{% csrf_token %}</p> 
+            {% if user.is_authenticated %}
+        <div class="d-grid gap-2 btn-new-wrapp">
+            <button type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add info</button>
+        </div>
+        <br>
+        {% endif %}
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5>Add info</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                <div class="mb-3">
+                    <input class="form-control" name="address" placeholder="Type your address here.." required></input>
+                    Avatar:<br>
+                    <input type="file" class="form-control-file" name="avatar">
+                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+            </div>
+        </div>
+        </div>
+        </form>
+        {% for info in context2 %}
+            {% if info.avatar %}
+                <img src="{{ info.avatar.url }}" class="avatar">
+            {% endif %}
+            <h3>{{ user.get_username }}</h3>
+            <h3>Address: {{ info.address }}</h3>
+        {% endfor %}
         <h3>
-            Username: {{ user.get_username }}
-            <br>
             Registered at: {{ user.date_joined }}
         </h3>
     </li>
