@@ -1,2 +1,1 @@
-# test_rep
-bldlglrge
+My studing ^^
